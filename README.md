@@ -2,6 +2,8 @@
 
 **Is anything in your home recalled?** RecallRadar checks the products you already own against every U.S. Consumer Product Safety Commission (CPSC) recall, then walks you through getting the refund, replacement or repair.
 
+**Live app:** https://perezamadorluisenrique-gif.github.io/recall-radar/
+
 Only about 6% of recalled consumer products are ever fixed (CPSC 2017 recall-effectiveness workshop, cited by the Senate Commerce Committee in 2021). People simply never find out that the charger or baby sleeper they bought three years ago was recalled. RecallRadar flips recalls from "pull" (go read the news) to "push" (here's what *you* own that's affected).
 
 ## What it does
