@@ -44,7 +44,7 @@ async function loadData() {
     state.index = buildIndex(rows);
     state.meta = meta;
     const when = meta ? ` · updated ${new Date(meta.updated).toLocaleDateString()}` : '';
-    $('#freshness').textContent = `${rows.length.toLocaleString()} recalls${when}`;
+    $('#freshness').textContent = meta?.sample ? `Demo data: ${rows.length} sample recalls` : `${rows.length.toLocaleString()} recalls${when}`;
   } catch {
     state.live = true;
     $('#freshness').textContent = 'Live CPSC search';

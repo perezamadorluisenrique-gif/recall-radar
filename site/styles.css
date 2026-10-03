@@ -19,7 +19,7 @@
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #14110f;
     --surface: #1e1a17;
     --ink: #f3eee8;
@@ -38,6 +38,25 @@
     --shadow: none;
     color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --bg: #14110f;
+  --surface: #1e1a17;
+  --ink: #f3eee8;
+  --muted: #a99f95;
+  --line: #342d28;
+  --accent: #fb7a3c;
+  --accent-ink: #1c0e05;
+  --accent-soft: #3a1f12;
+  --danger: #f87171;
+  --danger-soft: #3b1717;
+  --warn: #facc15;
+  --warn-soft: #33290d;
+  --ok: #4ade80;
+  --ok-soft: #10301c;
+  --info-soft: #232a33;
+  --shadow: none;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -64,7 +83,7 @@ img { max-width: 100%; }
 .tabs {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
   background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px;
-  position: sticky; top: 8px; z-index: 5; box-shadow: var(--shadow);
+  position: sticky; top: calc(8px + env(safe-area-inset-top, 0px)); z-index: 5; box-shadow: var(--shadow);
 }
 .tabs button {
   border: 0; background: none; color: var(--muted); font: inherit; font-size: 0.92rem; font-weight: 600;
