@@ -1,0 +1,14 @@
+{
+  "name": "recall-radar",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Check the products you own against CPSC recalls, then get the remedy done.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "data": "node scripts/fetch-recalls.mjs",
+    "start": "npx --yes serve site -l 5173",
+    "data:sample": "node scripts/sample-data.mjs"
+  },
+  "license": "MIT"
+}

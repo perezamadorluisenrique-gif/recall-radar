@@ -1,0 +1,10 @@
+{
+  "name": "RecallRadar",
+  "short_name": "RecallRadar",
+  "description": "Check the products you own against CPSC recalls.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#faf7f2",
+  "theme_color": "#c2410c",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
