@@ -12,8 +12,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: bash scripts/probe.sh
-      - run: node scripts/dump-raw.mjs && du -sh raw
+      - run: echo skip
+      - run: node scripts/dump-raw.mjs && node scripts/dump-fda.mjs && du -sh raw
       - run: |
           git config user.name probe-bot && git config user.email probe@users.noreply.github.com
           git checkout --orphan rawdata && git rm -rfq --cached . && git add raw && git commit -qm raw && git push -f origin rawdata
