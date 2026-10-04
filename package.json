@@ -1,14 +1,16 @@
 {
   "name": "recall-radar",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Check the products you own against CPSC recalls, then get the remedy done.",
+  "description": "Check the products, food and car you own against U.S. recalls (CPSC, FDA, NHTSA), then get the remedy done.",
   "type": "module",
   "scripts": {
     "test": "node --test test/*.test.mjs",
     "data": "node scripts/fetch-recalls.mjs",
     "start": "npx --yes serve site -l 5173",
-    "data:sample": "node scripts/sample-data.mjs"
+    "data:sample": "node scripts/sample-data.mjs",
+    "e2e": "node test/e2e.mjs",
+    "eval": "node scripts/eval-matching.mjs"
   },
   "license": "MIT"
 }

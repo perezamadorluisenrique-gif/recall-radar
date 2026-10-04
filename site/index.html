@@ -3,55 +3,70 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>RecallRadar</title>
-  <meta name="description" content="Is anything in your home recalled? Search, scan a barcode or paste your order history and check it against every CPSC recall, then get the refund or repair done.">
+  <title>RecallRadar: is anything in your home recalled?</title>
+  <meta name="description" content="Check the products, food and car you own against every U.S. recall: search, scan a barcode, paste your order history or enter your VIN. Then get the refund or repair done.">
   <meta name="theme-color" content="#c2410c">
+  <meta property="og:title" content="RecallRadar: is anything in your home recalled?">
+  <meta property="og:description" content="Only about 6% of recalled products ever get fixed. Check yours against every CPSC, FDA food and NHTSA vehicle recall in seconds.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://perezamadorluisenrique-gif.github.io/recall-radar/og.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="top">
-    <div class="brand">
+    <a class="brand" href="./">
       <img src="icon.svg" alt="" width="32" height="32">
       <span>RecallRadar</span>
-    </div>
+    </a>
     <span id="freshness" class="freshness">Loading recalls…</span>
   </header>
 
   <main>
     <section class="hero">
       <h1>Is anything in your home recalled?</h1>
-      <p>Only about <strong>6%</strong> of recalled products ever get fixed, mostly because owners never hear about it. Check yours against every U.S. CPSC recall in seconds.</p>
+      <p>Only about <strong>6%</strong> of recalled products ever get fixed, mostly because owners never hear about it. Check yours against every U.S. product, food and vehicle recall.</p>
     </section>
 
-    <div id="alerts"></div>
+    <div id="alerts" aria-live="polite"></div>
 
-    <nav class="tabs" role="tablist">
-      <button role="tab" data-tab="search" aria-selected="true">Search</button>
-      <button role="tab" data-tab="scan">Scan</button>
-      <button role="tab" data-tab="orders">Orders</button>
-      <button role="tab" data-tab="mine">My stuff <span id="mine-count" class="count" hidden></span></button>
+    <nav class="tabs" role="tablist" aria-label="Ways to check">
+      <button role="tab" id="t-search" data-tab="search" aria-selected="true" aria-controls="tab-search">Search</button>
+      <button role="tab" id="t-scan" data-tab="scan" aria-controls="tab-scan">Scan</button>
+      <button role="tab" id="t-orders" data-tab="orders" aria-controls="tab-orders">Orders</button>
+      <button role="tab" id="t-car" data-tab="car" aria-controls="tab-car">Car</button>
+      <button role="tab" id="t-mine" data-tab="mine" aria-controls="tab-mine">Mine <span id="mine-count" class="count" hidden></span></button>
     </nav>
 
-    <section id="tab-search" class="panel" role="tabpanel">
-      <form id="search-form" class="searchbar" autocomplete="off">
-        <input id="q" type="search" placeholder="Product, brand, model or UPC" aria-label="Product, brand, model or UPC" enterkeyhint="search">
+    <section id="tab-search" class="panel" role="tabpanel" aria-labelledby="t-search">
+      <form id="search-form" class="searchbar" autocomplete="off" role="search">
+        <input id="q" type="search" placeholder="Product, brand, model, food or UPC" aria-label="Product, brand, model, food or UPC" enterkeyhint="search">
         <button class="btn primary" type="submit">Check</button>
       </form>
       <div class="chips" id="examples">
         <span>Try:</span>
         <button type="button">Fisher-Price Rock 'n Play</button>
-        <button type="button">Anker PowerCore 10000</button>
-        <button type="button">baby walker</button>
-        <button type="button">space heater</button>
+        <button type="button">Anker A1263</button>
+        <button type="button">IKEA MALM dresser</button>
+        <button type="button">peanut butter</button>
       </div>
       <div id="search-results" class="results" aria-live="polite"></div>
+      <section id="feed" class="feed" aria-labelledby="feed-title">
+        <div class="feed-head">
+          <h2 id="feed-title">Latest recalls</h2>
+          <span id="feed-count" class="muted"></span>
+        </div>
+        <div id="feed-filters" class="filters" role="group" aria-label="Filter by category"></div>
+        <div id="feed-list" class="results"></div>
+        <button id="feed-more" class="btn ghost wide" type="button" hidden>Show more</button>
+      </section>
     </section>
 
-    <section id="tab-scan" class="panel" role="tabpanel" hidden>
-      <p class="hint">Point your camera at the barcode on the product or its box. Nothing leaves your phone except the barcode number.</p>
+    <section id="tab-scan" class="panel" role="tabpanel" aria-labelledby="t-scan" hidden>
+      <p class="hint">Point your camera at the barcode on a product, its box or a food package. Only the barcode number leaves your phone.</p>
       <div class="scanner">
         <video id="video" playsinline muted></video>
         <div class="reticle"></div>
@@ -64,32 +79,65 @@
       <div id="scan-results" class="results" aria-live="polite"></div>
     </section>
 
-    <section id="tab-orders" class="panel" role="tabpanel" hidden>
-      <p class="hint">Copy your order history (Amazon, Walmart, Target, eBay…) or a receipt and paste it here. Each line is checked separately; prices and order numbers are ignored. It never leaves your device.</p>
-      <textarea id="orders" rows="8" placeholder="Paste your order history here"></textarea>
-      <div class="row">
+    <section id="tab-orders" class="panel" role="tabpanel" aria-labelledby="t-orders" hidden>
+      <p class="hint">Copy your order history (Amazon, Walmart, Target, eBay…) or a receipt and paste it here. Each product is checked, and order dates are used to skip recalls from before you bought it. Nothing leaves your device.</p>
+      <textarea id="orders" rows="8" placeholder="Paste your order history here" aria-label="Order history"></textarea>
+      <div class="row wrap">
         <button id="orders-check" class="btn primary" type="button">Check my orders</button>
         <button id="orders-sample" class="btn ghost" type="button">Use a sample</button>
       </div>
       <div id="orders-results" class="results" aria-live="polite"></div>
+      <details class="howto">
+        <summary>On a computer? Check your Amazon orders in one click</summary>
+        <ol>
+          <li>Drag this button to your bookmarks bar: <a id="bookmarklet" class="btn small bm" href="#">Check with RecallRadar</a></li>
+          <li>Open your <a href="https://www.amazon.com/gp/css/order-history" target="_blank" rel="noopener">Amazon orders</a> (or Walmart or Target purchases).</li>
+          <li>Click the bookmark. The products on that page open here and get checked.</li>
+        </ol>
+      </details>
     </section>
 
-    <section id="tab-mine" class="panel" role="tabpanel" hidden>
+    <section id="tab-car" class="panel" role="tabpanel" aria-labelledby="t-car" hidden>
+      <p class="hint">Check your car, truck or motorcycle against NHTSA safety recalls. Recall repairs are free at any dealer.</p>
+      <form id="vin-form" class="searchbar" autocomplete="off">
+        <input id="vin" maxlength="17" placeholder="VIN (17 characters, on your registration or windshield)" aria-label="Vehicle identification number" autocapitalize="characters" spellcheck="false">
+        <button class="btn primary" type="submit">Check</button>
+      </form>
+      <p class="or">or pick your vehicle</p>
+      <form id="ymm-form" class="ymm">
+        <select id="car-year" aria-label="Model year"></select>
+        <select id="car-make" aria-label="Make" disabled><option value="">Make</option></select>
+        <select id="car-model" aria-label="Model" disabled><option value="">Model</option></select>
+        <button class="btn" type="submit" disabled id="ymm-go">Check</button>
+      </form>
+      <div id="car-results" class="results" aria-live="polite"></div>
+      <p class="fine">Car seats, tires and other equipment: <a href="https://www.nhtsa.gov/recalls" target="_blank" rel="noopener">search NHTSA</a>.</p>
+    </section>
+
+    <section id="tab-mine" class="panel" role="tabpanel" aria-labelledby="t-mine" hidden>
       <p class="hint">Things you own. RecallRadar re-checks them against new recalls every time you open it.</p>
       <form id="add-form" class="searchbar">
         <input id="add-name" placeholder="Add something you own, e.g. Graco crib" aria-label="Add something you own">
         <button class="btn" type="submit">Add</button>
       </form>
       <div id="mine-list" class="results"></div>
+      <div class="row wrap backup">
+        <button id="export" class="btn ghost small" type="button">Back up my list</button>
+        <label class="btn ghost small" for="import">Restore a backup</label>
+        <input id="import" type="file" accept="application/json,.json" hidden>
+        <button id="share-report" class="btn ghost small" type="button">Copy a summary</button>
+      </div>
     </section>
   </main>
 
   <footer class="foot">
-    <p>Data: <a href="https://www.saferproducts.gov/" rel="noopener">U.S. Consumer Product Safety Commission</a> Recalls API, refreshed daily. Not affiliated with CPSC. Always confirm model numbers against the official notice.</p>
-    <p>Your list and notes stay in this browser. <a href="https://github.com/perezamadorluisenrique-gif/recall-radar" rel="noopener">Source code</a></p>
+    <p>Data from the <a href="https://www.saferproducts.gov/" rel="noopener">U.S. Consumer Product Safety Commission</a> (all recalls since 1973), <a href="https://open.fda.gov/apis/food/enforcement/" rel="noopener">FDA</a> (food recalls from the last two years) and <a href="https://www.nhtsa.gov/recalls" rel="noopener">NHTSA</a> (vehicles, live). Refreshed daily. Not affiliated with any agency. Always confirm model numbers and lot codes against the official notice.</p>
+    <p>Hurt by a product or found a hazard? <a href="https://www.saferproducts.gov/IncidentReporting" rel="noopener">Report it to CPSC</a>.</p>
+    <p>Your list stays in this browser. <a href="https://github.com/perezamadorluisenrique-gif/recall-radar" rel="noopener">Source code and data API</a></p>
   </footer>
 
-  <dialog id="wizard" class="wizard"></dialog>
+  <dialog id="sheet" class="sheet" aria-labelledby="sheet-title"></dialog>
+  <dialog id="wizard" class="sheet" aria-labelledby="wizard-title"></dialog>
 
   <script type="module" src="app.js"></script>
 </body>

@@ -1,7 +1,7 @@
 // Network-first for everything same-origin, falling back to the cache so the
 // app and the last recall snapshot keep working offline.
-const CACHE = 'recallradar-v1';
-const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'match.js', 'cpsc.js', 'icon.svg', 'manifest.webmanifest'];
+const CACHE = 'recallradar-v3';
+const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'match.js', 'cpsc.js', 'fda.js', 'tags.js', 'vehicles.js', 'icon.svg', 'manifest.webmanifest'];
 
 self.addEventListener('install', (e) => e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())));
 self.addEventListener('activate', (e) =>

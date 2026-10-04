@@ -20,13 +20,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
       - run: npm test
-      - name: Download CPSC recall snapshot
-        run: npm run data
+      - name: Browser test on a phone-sized screen (sample data, mocked APIs)
+        run: |
+          npm install --no-save playwright@1
+          npx playwright install --with-deps chromium
+          npm run -s data:sample
+          python3 -m http.server 5173 -d site >/dev/null 2>&1 &
+          sleep 1
+          BASE=http://localhost:5173 node test/e2e.mjs
+      - name: Download CPSC and FDA recall snapshot
+        run: |
+          rm -rf site/data
+          npm run data
+      - name: Check matching quality on the real data
+        run: node scripts/eval-matching.mjs --check
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

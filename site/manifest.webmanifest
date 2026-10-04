@@ -1,10 +1,24 @@
 {
   "name": "RecallRadar",
   "short_name": "RecallRadar",
-  "description": "Check the products you own against CPSC recalls.",
+  "description": "Check the products, food and car you own against U.S. recalls.",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#faf7f2",
   "theme_color": "#c2410c",
-  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "share_target": {
+    "action": "./",
+    "method": "GET",
+    "params": { "title": "title", "text": "text", "url": "url" }
+  },
+  "shortcuts": [
+    { "name": "Scan a barcode", "url": "./?tab=scan" },
+    { "name": "Check my car", "url": "./?tab=car" }
+  ]
 }
