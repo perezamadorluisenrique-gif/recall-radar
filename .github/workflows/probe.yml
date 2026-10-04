@@ -2,6 +2,8 @@ name: probe
 on:
   push:
     branches: [probe]
+permissions:
+  contents: write
 jobs:
   probe:
     runs-on: ubuntu-latest
@@ -11,5 +13,7 @@ jobs:
         with:
           node-version: 22
       - run: bash scripts/probe.sh
-      - run: npm run data > /dev/null
-      - run: node scripts/eval-matching.mjs
+      - run: node scripts/dump-raw.mjs && du -sh raw
+      - run: |
+          git config user.name probe-bot && git config user.email probe@users.noreply.github.com
+          git checkout --orphan rawdata && git rm -rfq --cached . && git add raw && git commit -qm raw && git push -f origin rawdata
