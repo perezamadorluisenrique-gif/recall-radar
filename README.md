@@ -69,6 +69,10 @@ Push to `main`. The `Refresh recalls and deploy` workflow runs the unit tests an
 - USDA meat and poultry, drug and Health Canada recall sources.
 - B2B API for resale marketplaces, home-insurance apps and product-registration services.
 
+## Privacy
+
+No account and no server. Your list stays in the browser. Visits are counted with [GoatCounter](https://www.goatcounter.com/) (`stats.js`): no cookies, nothing stored on the device, no personal data. It sends only the page path (never the query string, so shared links and anything typed stay private), the referring site and the screen width, and it is skipped when Do Not Track is on.
+
 ## Disclaimer
 
 Not affiliated with or endorsed by CPSC, FDA or NHTSA. Matches are suggestions: always confirm the model number, lot codes, dates and retailer against the official recall notice before acting.
