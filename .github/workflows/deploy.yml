@@ -3,6 +3,7 @@ name: Refresh recalls and deploy
 on:
   push:
     branches: [main]
+  pull_request:
   schedule:
     - cron: '17 9 * * *' # daily, after CPSC's morning publishing
   workflow_dispatch:
@@ -12,8 +13,9 @@ permissions:
   pages: write
   id-token: write
 
+# Per-ref group: a pull request run must never cancel a main deploy.
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -40,11 +42,14 @@ jobs:
       - name: Check matching quality on the real data
         run: node scripts/eval-matching.mjs --check
       - uses: actions/configure-pages@v5
+        if: github.event_name != 'pull_request'
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
         with:
           path: site
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:
