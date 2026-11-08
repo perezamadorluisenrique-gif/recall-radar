@@ -2,7 +2,7 @@
 
 Static PWA (no build step) that checks products, food and cars people own against U.S. recalls
 (CPSC, FDA food, NHTSA). Live: https://perezamadorluisenrique-gif.github.io/recall-radar/
-Part of Hidden Problems Lab; project policy lives in `/mnt/project-files/autopilot/charter.md`.
+Part of Hidden Problems Lab; general rules are the owner's Claude project instructions.
 
 ## Commands
 | Job | Command |
