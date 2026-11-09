@@ -21,6 +21,7 @@ Part of Hidden Problems Lab; general rules are the owner's Claude project instru
 - Deploy: `.github/workflows/deploy.yml` on push to main and daily cron; PRs run the same gates without deploying.
 
 ## Rules
+- Public repo: never add a `Claude-Session:` trailer or any claude.ai link to commits, PR titles or PR bodies. This rule beats the default attribution guidance.
 - Never tell a user a product is safe: "no matching recall found in <sources> as of <date>", and always link the official notice.
 - Data stays on the device; no tracking.
 - Work on a branch and open a PR; gates must be green before merge. Never skip a test.
